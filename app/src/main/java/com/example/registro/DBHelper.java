@@ -2,6 +2,7 @@ package com.example.registro;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -9,7 +10,8 @@ import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static int versao = 1;
-    private  static String nome = "Login_Registro_BaseDados.db";
+    private static String nome = "Login_Registro_BaseDados.db";
+
     public DBHelper(@Nullable Context context) {
         super(context, nome, null, versao);
     }
@@ -30,12 +32,18 @@ public class DBHelper extends SQLiteOpenHelper {
     public long CriarUtlizador(String nome, String senha) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put("nome",nome);
-        cv.put("senha",senha);
-        long result = db.insert("Utilizador",null,cv);
-        return result ;
+        cv.put("nome", nome);
+        cv.put("senha", senha);
+        long result = db.insert("Utilizador", null, cv);
+        return result;
     }
-    public String ValidarLogin(String nome, String senha){
-        return "";
+
+    public String ValidarLogin(String nome, String senha) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM Utilizador WHERE nome =? AND senha=?", new String[]{nome, senha});
+        if (c.getCount() > 0) {
+            return "";
+        }
+        return "ERRO";
     }
 }

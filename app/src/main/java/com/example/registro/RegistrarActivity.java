@@ -50,6 +50,7 @@ public class RegistrarActivity extends AppCompatActivity {
                     }else{
                         Toast.makeText(RegistrarActivity.this,"Registro incorreto,tente novamente",Toast.LENGTH_SHORT).show();
 
+
                     }
                 }
             }
